@@ -1,0 +1,7 @@
+interface:
+  display_name: "단디메카 Word 표준 포맷"
+  short_description: "Create documents with the 단디메카 Word 표준 포맷 template"
+  icon_large: "./assets/preview.png"
+  default_prompt: "Use $artifact-template-word to create a new document with this template."
+policy:
+  allow_implicit_invocation: true
