@@ -12,8 +12,8 @@
 
 ```text
 DDS/
-├─ .agents/plugins/marketplace.json
 └─ Codex Plugins/
+   ├─ .agents/plugins/marketplace.json
    └─ plugins/
       └─ dhandy-word-template/
          ├─ .codex-plugin/plugin.json
@@ -24,7 +24,9 @@ DDS/
 ## 설치 및 공유
 
 1. 이 저장소를 내려받거나 복제합니다.
-2. Codex에서 저장소 루트의 `.agents/plugins/marketplace.json`을 마켓플레이스 파일로 등록합니다.
+2. Codex에서 `Codex Plugins` 폴더를 팀 마켓플레이스로 등록합니다.
+   - 명령 예시: `codex plugin marketplace add "<DDS 저장소 경로>/Codex Plugins"`
+   - 마켓플레이스 파일: `Codex Plugins/.agents/plugins/marketplace.json`
 3. `dhandy-word-template` 플러그인을 설치합니다.
 
 ## 업데이트 관리 규칙

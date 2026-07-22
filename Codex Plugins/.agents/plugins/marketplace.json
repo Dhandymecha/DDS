@@ -8,7 +8,7 @@
       "name": "dhandy-word-template",
       "source": {
         "source": "local",
-        "path": "./Codex Plugins/plugins/dhandy-word-template"
+        "path": "./plugins/dhandy-word-template"
       },
       "policy": {
         "installation": "AVAILABLE",
