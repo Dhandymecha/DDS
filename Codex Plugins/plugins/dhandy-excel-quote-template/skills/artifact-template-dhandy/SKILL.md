@@ -17,7 +17,7 @@ The retained reference workbook is the source of truth for the current reusable 
   - Keep all four summary-header labels centered. In body rows, keep code centered, item/basis left aligned, and amount right aligned.
   - Keep `B:C` unmerged in summary rows and use `Center Across Selection` for the code label. Numbered codes must be numeric values with `0.00` number format; reserve text values for `ADJ.` and `NEG.` only.
   - Apply the pale-orange adjustment fill to every physical cell in `B:L` for rows `32:33`. In particular, do not leave column `C` white merely because `B:C` uses `Center Across Selection`.
-  - Do not use cell borders for summary body separators. Clear the top/bottom borders from `B:L` rows `25:33` and use one continuous `0.5 pt` light-gray vector line shape per row, named `COVER_RULE_25` through `COVER_RULE_33`, spanning the full `B:L` width.
+  - Use one continuous light-gray `xlThin` cell bottom border across `B:L` for every summary body row `25:33`. Clear all old top/bottom borders first, then recreate all nine bottom borders in a second pass so Excel's shared-edge behavior cannot delete the preceding row line. Do not overlay vector line shapes.
   - Keep the header top rule single: row `23` supplies the orange rule and row `24` must not duplicate it.
   - Cover Korean amount: place it below the final supply price, use a white fill, and add a thin gray top rule matching the surrounding design.
   - Keep row `34` as a `12 pt` white separator above the final quotation amount block. Compensate its height in the flexible spacer so the bottom information block and footer remain anchored.
@@ -25,6 +25,7 @@ The retained reference workbook is the source of truth for the current reusable 
   - Anchor payment terms, delivery, installation location, quotation validity, and the disclaimer as a bottom-stacked information block immediately above the company footer. Keep the large flexible blank spacer between VAT and this block, not below the disclaimer.
 - Detail sheet: customer-facing print area is `A:K`, with equal blank side-margin columns `A` and `K`. The customer table is `B:J`. Internal analysis begins at `L` and is excluded from customer print output.
 - Detail styling: repeat the top orange-to-dark gradient and the light-gray footer frame with orange top rule. Keep the footer inside the customer content area.
+- Detail table rules: retain the native `xlThin` cell borders in the workbook and avoid medium/thick exceptions at the VAT boundary. In the customer PDF, normalize ordinary horizontal and vertical rules to `0.50 pt` and intentional emphasis rules to no more than `0.72 pt`.
 - Customer PDF: include sheets `1` and `2` only. Never include the internal labor-rate sheet.
 
 When updating this skill, change only the reusable instructions and `assets/reference.xlsx`; do not modify previously delivered quotation workbooks or PDFs.
@@ -35,8 +36,10 @@ When updating this skill, change only the reusable instructions and `assets/refe
 2. Load [@spreadsheets](plugin://spreadsheets@openai-primary-runtime) and follow its reference/template workflow.
 3. Import `assets/reference.xlsx`; do not rebuild the workbook with generic styling.
 4. Replace the requested quotation data and formulas while preserving the three-sheet structure.
-5. Recalculate in native Excel, verify formulas and key totals, and visually inspect every customer-facing PDF page.
-6. Deliver both the editable `.xlsx` workbook and a customer print `.pdf` containing only sheets 1 and 2.
+5. Run `scripts/finalize_template.ps1` to restore native page setup, summary alignment, and standard cell borders before Excel PDF export.
+6. Run `scripts/vector_pdf_line_safe.py` on the native Excel PDF to create the full-bleed customer PDF with normalized rule widths.
+7. Recalculate in native Excel, verify formulas and key totals, and visually inspect every customer-facing PDF page.
+8. Deliver both the editable `.xlsx` workbook and a customer print `.pdf` containing only sheets 1 and 2.
 
 ## Workbook Structure
 
@@ -102,8 +105,8 @@ When updating this skill, change only the reusable instructions and `assets/refe
 - Measure each native PDF page's non-white pixel bounds after every layout change and map that bounding box back to PDF points.
 - Use the raster render only to measure bounds and visually review the result. Never rebuild the delivered PDF from PNG/JPEG pages.
 - Apply the measured translation and scale directly to the native PDF content stream so fonts, text selection, search, lines, and vector shapes remain intact while the A4 media box is preserved.
-- When the full-bleed transformation scales page content, counter-scale explicit stroke widths and thin horizontal/vertical rule rectangles before applying the page transform. Do not allow page enlargement to thicken Excel rules.
-- Compare the native Excel PDF and final full-bleed PDF on every customer page. The counts of explicit line strokes and thin rule rectangles must match, and corresponding physical widths must remain within `0.02 pt`.
+- When the full-bleed transformation scales page content, normalize Excel-exported horizontal and vertical rule rectangles before applying the page transform: ordinary `0.72 pt` rules become `0.50 pt`, and `1.44-1.56 pt` emphasis rules become `0.72 pt`. Counter-scale any remaining explicit strokes. This keeps the PDF visually consistent with Excel at practical viewing and print sizes.
+- Compare the native Excel PDF and final full-bleed PDF on every customer page. The counts of explicit line strokes and thin rule rectangles must match, and final rule widths must match the normalized targets within `0.02 pt`.
 - Verify the delivered PDF still exposes extractable text on every page and is not an image-only PDF.
 - Whenever a completed quotation is delivered, provide the `.xlsx` file and the matching print-ready `.pdf` together.
 
