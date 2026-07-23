@@ -6,7 +6,7 @@
 
 | 플러그인 | 용도 | 호출 스킬 | 현재 버전 |
 |---|---|---|---|
-| `dhandy-word-template` | 단디메카 Word 표준 포맷 기반 문서 생성 | `$artifact-template-word` | `1.0.0+codex.20260722162128` |
+| `dhandy-word-template` | 단디메카 Word 표준 포맷 기반 문서 생성 | `$artifact-template-word` | `1.0.0+codex.20260723075813` |
 | `dhandy-excel-quote-template` | 단디메카 Excel 견적서 표준 포맷 기반 견적서·PDF 생성 | `$artifact-template-dhandy` | `1.0.3+codex.20260723122714` |
 
 ## 디렉터리 구조
@@ -49,9 +49,9 @@ DDS/
 
 ## 업데이트 관리 규칙
 
-1. Word 기준본은 `plugins/dhandy-word-template/skills/artifact-template-word/assets/reference-v1.10.docx`에서 관리합니다.
+1. Word 기준본은 `plugins/dhandy-word-template/skills/artifact-template-word/assets/reference-v1.11.docx`에서 관리합니다.
 2. Excel 견적서 기준본은 `plugins/dhandy-excel-quote-template/skills/artifact-template-dhandy/assets/reference.xlsx`에서 관리합니다.
-3. 템플릿을 바꾸면 미리보기, 관련 기준 파일 및 스킬 지침도 함께 점검합니다. Excel PDF는 네이티브 출력본과 최종 출력본의 선 개수를 대조하고, 일반선은 `0.50 pt`, 강조선은 최대 `0.72 pt`로 검증합니다.
+3. 템플릿을 바꾸면 미리보기, 관련 기준 파일 및 스킬 지침도 함께 점검합니다. Word 데이터 표는 9 pt와 ID류 한 줄 표시 자동 QA를 통과해야 합니다. Excel PDF는 네이티브 출력본과 최종 출력본의 선 개수를 대조하고, 일반선은 `0.50 pt`, 강조선은 최대 `0.72 pt`로 검증합니다.
 4. 해당 `.codex-plugin/plugin.json`의 버전을 올리고, 위 표의 현재 버전도 동일하게 맞춥니다.
 5. 원본을 덮어쓰기 전에 문서·스프레드시트 렌더링과 플러그인 검증을 완료합니다.
 6. 변경 사유가 드러나는 커밋 메시지로 `main` 브랜치에 반영합니다.

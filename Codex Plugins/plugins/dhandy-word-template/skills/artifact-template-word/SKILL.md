@@ -14,13 +14,17 @@ Create a new document from this template. Keep the reference file unchanged.
 3. Load [@documents](plugin://documents@openai-primary-runtime) and invoke its reference/template workflow with the retained file.
 4. Treat the user's prompt and available sources as the content input. Do not invent facts merely to fill a template slot.
 5. Clone or import the reference instead of replacing its visual system with generic defaults.
-6. Render and verify the finished document, then return the final artifact.
-7. Preserve the embedded Pretendard Regular/Bold font parts. For an externally editable DOCX, verify `embedTrueTypeFonts=true`, `saveSubsetFonts=false`, the `fontTable.xml` relationships, and the `word/fonts` parts after the final save.
+6. Apply the table contract before delivery: semantic data-table header/body text is fixed at 9 pt; ID, code, document-number, and revision-number columns must be wide enough for their longest value and must not wrap. Never insert a manual line break into an ID. If space is insufficient, rebalance column widths, split the table, or use a landscape section.
+7. Run `python scripts/qa_word_template.py "<output.docx>"` after the final save. Add `--require-id-column` when the document is expected to contain an ID/code table. Do not deliver a file while this structural QA reports a failure.
+8. Render every page and visually verify clipping, overlap, abnormal wrapping, and page flow before returning the final artifact.
+9. Preserve the embedded Pretendard Regular/Bold font parts. For an externally editable DOCX, verify `embedTrueTypeFonts=true`, `saveSubsetFonts=false`, the `fontTable.xml` relationships, and the `word/fonts` parts after the final save.
 
 ## Fidelity
 
 Preserve page setup, sections, styles, lists, tables, headers, footers, and recurring page elements.
 
 Use hierarchical indents for headings and prose, but place ordinary tables, figures, and callouts on the 8 mm object grid. Use the full content width only for deliberately wide objects.
+
+The 9 pt table rule applies to semantic data tables that use `Dhandy Table Header` and `Dhandy Table Body`. Cover, header/footer, metadata, and callout layout tables retain their dedicated styles.
 
 User instructions control requested content and explicit deviations. The retained reference controls layout and formatting where the user has not requested a change.

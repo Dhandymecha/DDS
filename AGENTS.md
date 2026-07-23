@@ -21,12 +21,20 @@
 
 ### Word 표준 포맷
 
-- 기준본: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/reference-v1.10.docx`
+- 기준본: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/reference-v1.11.docx`
 - 템플릿 미리보기: `Codex Plugins/plugins/dhandy-word-template/assets/template-preview.png`
 - 스킬 미리보기: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/preview.png`
 - 스타일 가이드: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/style-guide.md`
 
 기준 DOCX에는 외부 전달 시 글꼴 문제가 발생하지 않도록 글꼴이 포함되어 있다. 템플릿을 수정할 때 글꼴 포함 상태를 유지한다.
+
+Word의 의미 기반 데이터 표는 머리행과 본문 모두 9 pt로 유지한다. ID·코드·문서번호·개정번호 열은 가장 긴 값이 한 줄에 들어오도록 고정 폭을 확보하고 줄바꿈 금지 속성을 적용한다. `URS-01-001`·`OI-001` 같은 추적 ID 열은 최소 1800 DXA를 사용한다.
+
+Word 기준본이나 산출물을 수정한 뒤 다음 검사를 반드시 통과시킨다.
+
+`python "Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/scripts/qa_word_template.py" "<검사할 DOCX>" --require-id-column`
+
+ID 열이 없는 일반 문서는 `--require-id-column`만 제외한다. 구조 검사 통과 후 전 페이지를 렌더링해 표의 잘림, ID 줄바꿈, 겹침과 비정상 페이지 나눔을 시각적으로 확인한다.
 
 ### Excel 견적서 표준 포맷
 
@@ -72,6 +80,7 @@ GitHub 저장소 초대와 Codex의 GitHub 계정 연결만으로 플러그인�
 - `marketplace.json`의 각 `source.path`는 `./plugins/<plugin-name>` 형식을 유지한다.
 - 플러그인 폴더명, 매니페스트의 `name`, 마켓플레이스의 `name`을 서로 일치시킨다.
 - Word 원본의 표지, 스타일, 문단 계층, 표·그림, 강조박스 및 상태 색상 규칙을 임의로 단순화하지 않는다.
+- Word 데이터 표 글꼴을 9 pt가 아닌 크기로 바꾸거나 ID류 열에 줄바꿈을 허용하지 않는다.
 - Excel 원본의 수식, 숫자 형식, 도형, 시트 구성, 인쇄 범위 및 고객용 PDF 제외 규칙을 임의로 변경하지 않는다.
 - Excel 고객용 PDF는 네이티브 Excel PDF와 최종 PDF의 선 개수와 물리 두께를 페이지별로 비교한다. 전체 화면 확대 과정에서 선이 굵어지지 않도록 보정하며 대응 선의 오차는 `0.02 pt` 이내로 유지한다.
 - 템플릿 변경 후 미리보기와 스킬 지침이 실제 기준본과 일치하는지 확인한다.
@@ -83,6 +92,6 @@ GitHub 저장소 초대와 Codex의 GitHub 계정 연결만으로 플러그인�
 - JSON 파일이 정상적으로 파싱된다.
 - 마켓플레이스 경로에서 등록된 플러그인 폴더를 모두 찾을 수 있다.
 - 각 플러그인에서 대응하는 스킬을 발견할 수 있다.
-- Word 기준본은 열리고 내장 글꼴과 Word 스타일이 유지된다.
+- Word 기준본은 열리고 내장 글꼴과 Word 스타일이 유지되며, 데이터 표 9 pt와 ID류 한 줄 표시 자동 QA 및 전 페이지 렌더 검사를 통과한다.
 - Excel 기준본은 열리고 수식 오류가 없으며 시트 1·2만 고객용 PDF에 포함된다. 최종 PDF의 선 두께 검증도 통과해야 한다.
 - 작업 트리가 의도한 파일만 변경한 상태이며 원격 저장소에 반영된다.
