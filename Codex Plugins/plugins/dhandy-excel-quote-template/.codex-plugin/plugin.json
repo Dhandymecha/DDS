@@ -1,0 +1,28 @@
+{
+  "name": "dhandy-excel-quote-template",
+  "version": "1.0.3+codex.20260723122714",
+  "description": "단디메카 Excel 견적서 표준 포맷을 Codex에서 재사용하기 위한 견적 템플릿 플러그인",
+  "author": {
+    "name": "주식회사 단디메카"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "단디메카 Excel 견적서 표준 포맷",
+    "shortDescription": "단디메카 표준 견적서와 고객 제출용 PDF를 동일한 규칙으로 작성합니다.",
+    "longDescription": "단디메카의 견적 표지, 상세 품목, 인건비 기준, 계산식, 인쇄 영역 및 고객 제출용 PDF 규칙을 유지하면서 프로젝트별 견적서를 작성하는 공유용 템플릿입니다.",
+    "developerName": "주식회사 단디메카",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "defaultPrompt": [
+      "단디메카 표준 포맷으로 장비 개발 견적서를 작성해줘.",
+      "첨부 수행계획서를 기준으로 단디메카 견적서를 만들어줘.",
+      "기존 견적서를 표준 포맷으로 정리하고 인쇄용 PDF도 만들어줘."
+    ],
+    "brandColor": "#F04A17",
+    "screenshots": [
+      "./assets/template-preview.png"
+    ]
+  }
+}
