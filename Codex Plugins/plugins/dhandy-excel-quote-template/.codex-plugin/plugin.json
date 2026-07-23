@@ -1,6 +1,6 @@
 {
   "name": "dhandy-excel-quote-template",
-  "version": "1.0.0+codex.20260723023458",
+  "version": "1.0.1+codex.20260723105152",
   "description": "단디메카 Excel 견적서 표준 포맷을 Codex에서 재사용하기 위한 견적 템플릿 플러그인",
   "author": {
     "name": "주식회사 단디메카"

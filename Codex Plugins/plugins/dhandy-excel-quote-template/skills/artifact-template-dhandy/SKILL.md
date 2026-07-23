@@ -16,10 +16,12 @@ The retained reference workbook is the source of truth for the current reusable 
 - Cover summary: use `B:L` with `Code B:C`, `Item D:F`, `Basis G:I`, and `Amount J:L`. Apply one indent level to left-aligned item/basis cells and right-aligned amount cells in body rows.
   - Keep all four summary-header labels centered. In body rows, keep code centered, item/basis left aligned, and amount right aligned.
   - Keep `B:C` unmerged in summary rows and use `Center Across Selection` for the code label. Numbered codes must be numeric values with `0.00` number format; reserve text values for `ADJ.` and `NEG.` only.
+  - Apply the pale-orange adjustment fill to every physical cell in `B:L` for rows `32:33`. In particular, do not leave column `C` white merely because `B:C` uses `Center Across Selection`.
   - Do not use cell borders for summary body separators. Clear the top/bottom borders from `B:L` rows `25:33` and use one continuous `0.5 pt` light-gray vector line shape per row, named `COVER_RULE_25` through `COVER_RULE_33`, spanning the full `B:L` width.
   - Keep the header top rule single: row `23` supplies the orange rule and row `24` must not duplicate it.
   - Cover Korean amount: place it below the final supply price, use a white fill, and add a thin gray top rule matching the surrounding design.
   - Keep row `34` as a `12 pt` white separator above the final quotation amount block. Compensate its height in the flexible spacer so the bottom information block and footer remain anchored.
+  - Keep row `34` visually blank and resolve its shared boundary with row `35` as one thin orange border. Excel may report the same shared edge as row `34` bottom and row `35` top; do not add a separate line shape or a second medium/thick rule.
   - Anchor payment terms, delivery, installation location, quotation validity, and the disclaimer as a bottom-stacked information block immediately above the company footer. Keep the large flexible blank spacer between VAT and this block, not below the disclaimer.
 - Detail sheet: customer-facing print area is `A:K`, with equal blank side-margin columns `A` and `K`. The customer table is `B:J`. Internal analysis begins at `L` and is excluded from customer print output.
 - Detail styling: repeat the top orange-to-dark gradient and the light-gray footer frame with orange top rule. Keep the footer inside the customer content area.
@@ -59,6 +61,8 @@ When updating this skill, change only the reusable instructions and `assets/refe
 - Apply one Excel indent level to every left-aligned item/basis cell and every right-aligned amount cell in the cover summary.
 - Add a Korean amount row directly below the final supply price and before VAT, using the form `일금 [한글 금액]원정`. Always update this text to match the final supply price.
 - Keep the Korean amount row white and separate it from the final-price block with a thin gray top rule.
+- Keep `ADJ.` and `NEG.` rows as one continuous pale-orange band across `B:L`, including all otherwise empty cells used for center-across-selection or merged display.
+- Keep the final-price top accent as one thin orange shared-edge rule. Do not overlay a separate line shape or retain a medium/thick boundary.
 
 ## Detail Rules
 
@@ -98,6 +102,8 @@ When updating this skill, change only the reusable instructions and `assets/refe
 - Measure each native PDF page's non-white pixel bounds after every layout change and map that bounding box back to PDF points.
 - Use the raster render only to measure bounds and visually review the result. Never rebuild the delivered PDF from PNG/JPEG pages.
 - Apply the measured translation and scale directly to the native PDF content stream so fonts, text selection, search, lines, and vector shapes remain intact while the A4 media box is preserved.
+- When the full-bleed transformation scales page content, counter-scale explicit stroke widths and thin horizontal/vertical rule rectangles before applying the page transform. Do not allow page enlargement to thicken Excel rules.
+- Compare the native Excel PDF and final full-bleed PDF on every customer page. The counts of explicit line strokes and thin rule rectangles must match, and corresponding physical widths must remain within `0.02 pt`.
 - Verify the delivered PDF still exposes extractable text on every page and is not an image-only PDF.
 - Whenever a completed quotation is delivered, provide the `.xlsx` file and the matching print-ready `.pdf` together.
 
