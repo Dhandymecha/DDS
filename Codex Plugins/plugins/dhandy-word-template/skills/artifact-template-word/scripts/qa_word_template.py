@@ -17,6 +17,24 @@ W = f"{{{W_NS}}}"
 R = f"{{{R_NS}}}"
 TABLE_FONT_HALF_POINTS = 18  # 9 pt
 MIN_ID_WIDTH_DXA = 1800
+BODY_LIST_LINE_TWIPS = 274  # 1.14 lines in Word's auto-line unit
+BODY_LIST_AFTER_TWIPS = 120  # 6 pt
+BODY_LIST_STYLE_NAMES = (
+    "Normal",
+    "Dhandy Body L1",
+    "Dhandy Body L2",
+    "Dhandy Body L3",
+    "Dhandy Bullet",
+    "Dhandy Bullet 2",
+    "Dhandy Bullet L1",
+    "Dhandy Bullet L2",
+    "Dhandy Bullet L3",
+    "Dhandy Numbered",
+    "Dhandy Numbered 2",
+    "Dhandy Numbered L1",
+    "Dhandy Numbered L2",
+    "Dhandy Numbered L3",
+)
 
 
 def w_attr(name: str) -> str:
@@ -169,6 +187,40 @@ def main() -> int:
                 "Dhandy Table Header must be bold",
             )
 
+            spacing_errors = []
+            for display_name in BODY_LIST_STYLE_NAMES:
+                style = style_by_name(styles_root, display_name)
+                spacing = (
+                    None
+                    if style is None
+                    else style.find(f"{W}pPr/{W}spacing")
+                )
+                if spacing is None:
+                    spacing_errors.append(
+                        f"{display_name}: spacing definition missing"
+                    )
+                    continue
+                line = int(spacing.get(w_attr("line"), "0"))
+                rule = spacing.get(w_attr("lineRule"))
+                before = int(spacing.get(w_attr("before"), "0"))
+                after = int(spacing.get(w_attr("after"), "0"))
+                if (
+                    line != BODY_LIST_LINE_TWIPS
+                    or rule != "auto"
+                    or before != 0
+                    or after != BODY_LIST_AFTER_TWIPS
+                ):
+                    spacing_errors.append(
+                        f"{display_name}: line={line}, rule={rule}, "
+                        f"before={before}, after={after}"
+                    )
+            check(
+                "Body and list spacing",
+                not spacing_errors,
+                "; ".join(spacing_errors)
+                or "body, bullet, and numbered styles use 1.14 lines / 6 pt after",
+            )
+
             semantic_tables = []
             id_column_count = 0
             direct_size_errors = []
@@ -318,6 +370,8 @@ def main() -> int:
         "document": str(args.docx.resolve()),
         "table_font_pt": TABLE_FONT_HALF_POINTS / 2,
         "minimum_id_width_dxa": MIN_ID_WIDTH_DXA,
+        "body_list_line_multiple": 1.14,
+        "body_list_after_pt": BODY_LIST_AFTER_TWIPS / 20,
         "checks": checks,
         "failures": failures,
     }

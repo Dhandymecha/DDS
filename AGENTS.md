@@ -21,7 +21,7 @@
 
 ### Word 표준 포맷
 
-- 기준본: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/reference-v1.11.docx`
+- 기준본: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/reference-v1.12.docx`
 - 템플릿 미리보기: `Codex Plugins/plugins/dhandy-word-template/assets/template-preview.png`
 - 스킬 미리보기: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/preview.png`
 - 스타일 가이드: `Codex Plugins/plugins/dhandy-word-template/skills/artifact-template-word/assets/style-guide.md`
@@ -29,6 +29,8 @@
 기준 DOCX에는 외부 전달 시 글꼴 문제가 발생하지 않도록 글꼴이 포함되어 있다. 템플릿을 수정할 때 글꼴 포함 상태를 유지한다.
 
 Word의 의미 기반 데이터 표는 머리행과 본문 모두 9 pt로 유지한다. ID·코드·문서번호·개정번호 열은 가장 긴 값이 한 줄에 들어오도록 고정 폭을 확보하고 줄바꿈 금지 속성을 적용한다. `URS-01-001`·`OI-001` 같은 추적 ID 열은 최소 1800 DXA를 사용한다.
+
+일반 본문, 수준별 본문, 글머리표 목록과 번호 목록은 모두 1.14배 행간, 문단 앞 0 pt, 문단 뒤 6 pt로 유지한다. 목록만 별도의 좁은 문단 간격을 사용하지 않는다.
 
 Word 기준본이나 산출물을 수정한 뒤 다음 검사를 반드시 통과시킨다.
 
@@ -92,6 +94,6 @@ GitHub 저장소 초대와 Codex의 GitHub 계정 연결만으로 플러그인�
 - JSON 파일이 정상적으로 파싱된다.
 - 마켓플레이스 경로에서 등록된 플러그인 폴더를 모두 찾을 수 있다.
 - 각 플러그인에서 대응하는 스킬을 발견할 수 있다.
-- Word 기준본은 열리고 내장 글꼴과 Word 스타일이 유지되며, 데이터 표 9 pt와 ID류 한 줄 표시 자동 QA 및 전 페이지 렌더 검사를 통과한다.
+- Word 기준본은 열리고 내장 글꼴과 Word 스타일이 유지되며, 본문·목록 간격 일치, 데이터 표 9 pt와 ID류 한 줄 표시 자동 QA 및 전 페이지 렌더 검사를 통과한다.
 - Excel 기준본은 열리고 수식 오류가 없으며 시트 1·2만 고객용 PDF에 포함된다. 최종 PDF의 선 두께 검증도 통과해야 한다.
 - 작업 트리가 의도한 파일만 변경한 상태이며 원격 저장소에 반영된다.

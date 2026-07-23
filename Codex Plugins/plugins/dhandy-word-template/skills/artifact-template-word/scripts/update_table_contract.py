@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply the Dhandy semantic-table contract to an existing DOCX."""
+"""Apply the Dhandy body/list-spacing and semantic-table contracts."""
 
 from __future__ import annotations
 
@@ -21,6 +21,24 @@ ET.register_namespace("w", W_NS)
 TABLE_FONT_HALF_POINTS = 18  # 9 pt
 MIN_ID_WIDTH_DXA = 1800
 MIN_NARRATIVE_WIDTH_DXA = 1800
+BODY_LIST_LINE_TWIPS = 274  # 1.14 lines in Word's auto-line unit
+BODY_LIST_AFTER_TWIPS = 120  # 6 pt
+BODY_LIST_STYLE_NAMES = (
+    "Normal",
+    "Dhandy Body L1",
+    "Dhandy Body L2",
+    "Dhandy Body L3",
+    "Dhandy Bullet",
+    "Dhandy Bullet 2",
+    "Dhandy Bullet L1",
+    "Dhandy Bullet L2",
+    "Dhandy Bullet L3",
+    "Dhandy Numbered",
+    "Dhandy Numbered 2",
+    "Dhandy Numbered L1",
+    "Dhandy Numbered L2",
+    "Dhandy Numbered L3",
+)
 
 
 def w_attr(name: str) -> str:
@@ -57,6 +75,35 @@ def set_style_size(styles_root: ET.Element, display_name: str, half_points: int)
             raise ValueError(f"Style has no styleId: {display_name}")
         return style_id
     raise ValueError(f"Required Word style is missing: {display_name}")
+
+
+def set_body_list_spacing(styles_root: ET.Element) -> int:
+    updated = 0
+    for display_name in BODY_LIST_STYLE_NAMES:
+        style = next(
+            (
+                candidate
+                for candidate in styles_root.findall(f"{W}style")
+                if (
+                    (name := candidate.find(f"{W}name")) is not None
+                    and name.get(w_attr("val")) == display_name
+                )
+            ),
+            None,
+        )
+        if style is None:
+            raise ValueError(f"Required Word style is missing: {display_name}")
+        spacing = style.find(f"{W}pPr/{W}spacing")
+        if spacing is None:
+            raise ValueError(
+                f"Required spacing definition is missing: {display_name}"
+            )
+        spacing.set(w_attr("line"), str(BODY_LIST_LINE_TWIPS))
+        spacing.set(w_attr("lineRule"), "auto")
+        spacing.set(w_attr("before"), "0")
+        spacing.set(w_attr("after"), str(BODY_LIST_AFTER_TWIPS))
+        updated += 1
+    return updated
 
 
 def paragraph_style_id(paragraph: ET.Element) -> str | None:
@@ -328,6 +375,7 @@ def main() -> int:
             package.read("word/document.xml")
         )
 
+    spacing_style_count = set_body_list_spacing(styles_root)
     header_style_id = set_style_size(
         styles_root, "Dhandy Table Header", TABLE_FONT_HALF_POINTS
     )
@@ -335,6 +383,9 @@ def main() -> int:
         styles_root, "Dhandy Table Body", TABLE_FONT_HALF_POINTS
     )
     summary = patch_document(document_root, header_style_id, body_style_id)
+    summary["body_list_styles_updated"] = spacing_style_count
+    summary["body_list_line_multiple"] = 1.14
+    summary["body_list_after_pt"] = BODY_LIST_AFTER_TWIPS / 20
 
     replacements = {
         "word/styles.xml": serialize_xml_part(styles_root, styles_namespaces),
