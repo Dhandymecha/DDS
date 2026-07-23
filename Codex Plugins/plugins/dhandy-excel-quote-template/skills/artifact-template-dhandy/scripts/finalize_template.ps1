@@ -72,6 +72,8 @@ try {
     # the same alignment to numeric rows and ADJ./NEG. alike.
     $cover.Range('B25:C33').HorizontalAlignment = 7
     $cover.Range('B25:C33').VerticalAlignment = -4108
+    $cover.Range('B24').Value2 = 'CODE'
+    $cover.Range('C24').ClearContents()
     $cover.Range('B24:C24').HorizontalAlignment = 7
     $cover.Range('B24:C24').VerticalAlignment = -4108
     $cover.Range('B24:C24').Font.Underline = -4142

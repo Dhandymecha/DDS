@@ -7,7 +7,7 @@
 | 플러그인 | 용도 | 호출 스킬 | 현재 버전 |
 |---|---|---|---|
 | `dhandy-word-template` | 단디메카 Word 표준 포맷 기반 문서 생성 | `$artifact-template-word` | `1.0.0+codex.20260722162128` |
-| `dhandy-excel-quote-template` | 단디메카 Excel 견적서 표준 포맷 기반 견적서·PDF 생성 | `$artifact-template-dhandy` | `1.0.2+codex.20260723112504` |
+| `dhandy-excel-quote-template` | 단디메카 Excel 견적서 표준 포맷 기반 견적서·PDF 생성 | `$artifact-template-dhandy` | `1.0.3+codex.20260723122714` |
 
 ## 디렉터리 구조
 
